@@ -21,5 +21,8 @@ conceitual https://app.brmodeloweb.com/#!/publicview/69d7c18de56bc192cf505b87
 lógico https://app.brmodeloweb.com/#!/publicview/69d7c1e8e56bc192cf505be4
 
 ## clínica veterinária
+conceitual https://app.brmodeloweb.com/#!/publicview/69d7c18de56bc192cf505b87
+
+lógico https://app.brmodeloweb.com/#!/publicview/69df6860e33b4dc332f92e3b
 
 
