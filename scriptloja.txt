@@ -1,0 +1,154 @@
+Microsoft Windows [versão 10.0.19045.5131]
+(c) Microsoft Corporation. Todos os direitos reservados.
+
+C:\Users\Aluno>cd C:\xampp\mysql
+
+C:\xampp\mysql>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin> mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 22
+Server version: 10.4.27-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use loja
+Database changed
+MariaDB [loja]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| loja               |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [loja]> describe produtos;
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| ide_produto  | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome         | varchar(255)  | NO   |     | NULL    |                |
+| preco        | decimal(10,2) | NO   |     | NULL    |                |
+| observacoes  | varchar(255)  | YES  |     | NULL    |                |
+| id_categoria | int(11)       | YES  | MUL | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+5 rows in set (0.024 sec)
+
+MariaDB [loja]> alter table produtos add ativo bit not null;
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> describe produtos;
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| ide_produto  | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome         | varchar(255)  | NO   |     | NULL    |                |
+| preco        | decimal(10,2) | NO   |     | NULL    |                |
+| observacoes  | varchar(255)  | YES  |     | NULL    |                |
+| id_categoria | int(11)       | YES  | MUL | NULL    |                |
+| ativo        | bit(1)        | NO   |     | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.020 sec)
+
+MariaDB [loja]> alter table produtos change ativo ativos int;
+Query OK, 0 rows affected (0.111 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> describe produtos
+    -> ;
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| ide_produto  | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome         | varchar(255)  | NO   |     | NULL    |                |
+| preco        | decimal(10,2) | NO   |     | NULL    |                |
+| observacoes  | varchar(255)  | YES  |     | NULL    |                |
+| id_categoria | int(11)       | YES  | MUL | NULL    |                |
+| ativos       | int(11)       | YES  |     | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.022 sec)
+
+MariaDB [loja]> alter table produtos drop column ativos;
+Query OK, 0 rows affected (0.024 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> describe produtos
+    -> ;
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| ide_produto  | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome         | varchar(255)  | NO   |     | NULL    |                |
+| preco        | decimal(10,2) | NO   |     | NULL    |                |
+| observacoes  | varchar(255)  | YES  |     | NULL    |                |
+| id_categoria | int(11)       | YES  | MUL | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+5 rows in set (0.018 sec)
+
+MariaDB [loja]> rename table produtos to produto;
+Query OK, 0 rows affected (0.034 sec)
+
+MariaDB [loja]> describe produto;
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| ide_produto  | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome         | varchar(255)  | NO   |     | NULL    |                |
+| preco        | decimal(10,2) | NO   |     | NULL    |                |
+| observacoes  | varchar(255)  | YES  |     | NULL    |                |
+| id_categoria | int(11)       | YES  | MUL | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+5 rows in set (0.032 sec)
+
+MariaDB [loja]> insert into categorias (categoria) values("laticinios")
+    -> ("hortifruit")
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '("hortifruit")' at line 2
+MariaDB [loja]> insert into categorias (categoria) values("laticinios")
+    -> ("hortifruit")
+    -> ("eletronicos")
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '("hortifruit")
+("eletronicos")' at line 2
+MariaDB [loja]> insert into categorias (categoria) values("laticinios")
+    -> ;
+Query OK, 1 row affected (0.013 sec)
+
+MariaDB [loja]> insert into categorias (categoria) values("laticinios"),
+    -> ("hortifruit")
+    -> ;
+Query OK, 2 rows affected (0.011 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> insert into categorias (categoria) values("laticinios"),
+    -> ("hortifruit"),
+    -> ("eletronicos"),
+    -> ("limpeza"),
+    -> ("refrigerados");
+Query OK, 5 rows affected (0.012 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> select * from categorias;
++--------------+--------------+
+| id_categoria | categoria    |
++--------------+--------------+
+|            1 | laticinios   |
+|            2 | laticinios   |
+|            3 | hortifruit   |
+|            4 | laticinios   |
+|            5 | hortifruit   |
+|            6 | eletronicos  |
+|            7 | limpeza      |
+|            8 | refrigerados |
++--------------+--------------+
+8 rows in set (0.000 sec)
+
+MariaDB [loja]>
