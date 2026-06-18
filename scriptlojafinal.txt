@@ -1,0 +1,393 @@
+Microsoft Windows [versão 10.0.19045.5131]
+(c) Microsoft Corporation. Todos os direitos reservados.
+
+C:\Users\Aluno>mysql -u root
+'mysql' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.
+
+C:\Users\Aluno>cd C:\xampp\apache\bin
+
+C:\xampp\apache\bin>mysql -u root
+'mysql' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.
+
+C:\xampp\apache\bin>mysql
+'mysql' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.
+
+C:\xampp\apache\bin>mysql0,
+'mysql0' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.
+
+C:\xampp\apache\bin>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 64
+Server version: 10.4.27-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use loja
+Database changed
+MariaDB [loja]> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| loja               |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [loja]> select from * produto;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'from * produto' at line 1
+MariaDB [loja]> select from * produtos;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'from * produtos' at line 1
+MariaDB [loja]> select * from produto;
+Empty set (0.002 sec)
+
+MariaDB [loja]> select * from categorias;
++--------------+--------------+
+| id_categoria | categoria    |
++--------------+--------------+
+|            1 | latinicios   |
+|            2 | hotifruit    |
+|            3 | eletrônicos  |
+|            4 | limpeza      |
+|            5 | refrigerados |
++--------------+--------------+
+5 rows in set (0.002 sec)
+
+MariaDB [loja]> rename table hotifruit to hortifruit;
+ERROR 1146 (42S02): Table 'loja.hotifruit' doesn't exist
+MariaDB [loja]> update categorias set categoria = 'hortifruit' where id_categoria = 2;
+Query OK, 1 row affected (0.013 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> select * from categorias;
++--------------+--------------+
+| id_categoria | categoria    |
++--------------+--------------+
+|            1 | latinicios   |
+|            2 | hortifruit   |
+|            3 | eletrônicos  |
+|            4 | limpeza      |
+|            5 | refrigerados |
++--------------+--------------+
+5 rows in set (0.001 sec)
+
+MariaDB [loja]> select * from produto where id_categoria = 1;
+Empty set (0.001 sec)
+
+MariaDB [loja]> select * from produto where categoria
+    -> ;
+ERROR 1054 (42S22): Unknown column 'categoria' in 'where clause'
+MariaDB [loja]> select * from limpeza;
+ERROR 1146 (42S02): Table 'loja.limpeza' doesn't exist
+MariaDB [loja]> select * from produto;
+Empty set (0.001 sec)
+
+MariaDB [loja]> describe produto;
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| ide_produto  | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome         | varchar(255)  | NO   |     | NULL    |                |
+| preco        | decimal(10,2) | NO   |     | NULL    |                |
+| observacoes  | varchar(255)  | YES  |     | NULL    |                |
+| id_categoria | int(11)       | YES  | MUL | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+5 rows in set (0.020 sec)
+
+MariaDB [loja]> insert into produto (nome, preco, observacoes, id_categoria) values ('Queijo', 12.50, 'Gorgonzola', 1);
+Query OK, 1 row affected (0.013 sec)
+
+MariaDB [loja]> select * from produto where id_categoria = 1;
++-------------+--------+-------+-------------+--------------+
+| ide_produto | nome   | preco | observacoes | id_categoria |
++-------------+--------+-------+-------------+--------------+
+|           1 | Queijo | 12.50 | Gorgonzola  |            1 |
++-------------+--------+-------+-------------+--------------+
+1 row in set (0.001 sec)
+
+MariaDB [loja]> alter table produto change ide_produto id_produto int(11) not null auto_increment;
+Query OK, 0 rows affected (0.023 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> insert into produto (nome, preco, observacoes, id_categoria) values ('Queijo', 12.50, 'Gorgonzola', 1);
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [loja]> select * from produto id_categoria = 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= 1' at line 1
+MariaDB [loja]> select * from produto where id_categoria = 1;
++------------+--------+-------+-------------+--------------+
+| id_produto | nome   | preco | observacoes | id_categoria |
++------------+--------+-------+-------------+--------------+
+|          1 | Queijo | 12.50 | Gorgonzola  |            1 |
+|          2 | Queijo | 12.50 | Gorgonzola  |            1 |
++------------+--------+-------+-------------+--------------+
+2 rows in set (0.001 sec)
+
+MariaDB [loja]> update produto set nome = 'Iogurte', preco = 5.50, observacoes = 'Morango' where id_produto = 2;
+Query OK, 1 row affected (0.014 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> select * from produto id_categoria = 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= 1' at line 1
+MariaDB [loja]> select * from produto where id_categoria = 1;
++------------+---------+-------+-------------+--------------+
+| id_produto | nome    | preco | observacoes | id_categoria |
++------------+---------+-------+-------------+--------------+
+|          1 | Queijo  | 12.50 | Gorgonzola  |            1 |
+|          2 | Iogurte |  5.50 | Morango     |            1 |
++------------+---------+-------+-------------+--------------+
+2 rows in set (0.001 sec)
+
+MariaDB [loja]> select * from produto;
++------------+---------+-------+-------------+--------------+
+| id_produto | nome    | preco | observacoes | id_categoria |
++------------+---------+-------+-------------+--------------+
+|          1 | Queijo  | 12.50 | Gorgonzola  |            1 |
+|          2 | Iogurte |  5.50 | Morango     |            1 |
++------------+---------+-------+-------------+--------------+
+2 rows in set (0.001 sec)
+
+MariaDB [loja]> insert into produto (nome, preco, observacoes, id_categoria) values ('Detergente', 2.50, 'Limão', 4);
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [loja]> insert into produto (nome, preco, observacoes, id_categoria) values ('Sabão em Pó', 19.50, 'Caixa 1kg', 4);
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [loja]> insert into produto (nome, preco, observacoes, id_categoria) values ('Leite', 4.80, 'Caixa 1L', 1);
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [loja]> insert into produto (nome, preco, observacoes, id_categoria) values ('Manteiga', 9.80, 'Com sal', 1);
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [loja]> insert into produto (nome, preco, observacoes, id_categoria) values ('Amaciante', 12.50, 'Toque de baunilha', 4);
+Query OK, 1 row affected (0.010 sec)
+
+MariaDB [loja]> INSERT INTO produto (nome, preco, observacoes, id_categoria) VALUES
+    ->
+    -> ('Banana Prata', 5.99, 'Preço por kg', 2),
+    ->
+    -> ('Maçã Gala', 8.50, 'Preço por kg', 2),
+    ->
+    -> ('Tomate Italiano', 7.20, 'Preço por kg', 2),
+    ->
+    -> ('Alface Crespa', 3.00, 'Unidade fresca', 2),
+    ->
+    -> ('Fone de Ouvido', 89.90, 'Bluetooth intra-auricular', 3),
+    ->
+    -> ('Mouse Sem Fio', 55.00, 'Óptico com pilhas inclusas', 3),
+    ->
+    -> ('Teclado Mecânico', 249.90, 'RGB Switch Blue', 3),
+    ->
+    -> ('Cabo HDMI 2m', 25.00, 'Suporte a 4K', 3),
+    ->
+    -> ('Lasanha Bolonhesa', 14.90, 'Congelada 600g', 5),
+    ->
+    -> ('Pizza de Calabresa', 18.00, 'Congelada pronta para assar', 5),
+    ->
+    -> ('Pão de Queijo', 12.50, 'Pacote congelado 1kg', 5),
+    ->
+    -> ('Sorvete de Creme', 26.90, 'Pote de 1.5L', 5);
+Query OK, 12 rows affected (0.013 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> select * from produto where id_categoria = 1;
++------------+----------+-------+-------------+--------------+
+| id_produto | nome     | preco | observacoes | id_categoria |
++------------+----------+-------+-------------+--------------+
+|          1 | Queijo   | 12.50 | Gorgonzola  |            1 |
+|          2 | Iogurte  |  5.50 | Morango     |            1 |
+|          5 | Leite    |  4.80 | Caixa 1L    |            1 |
+|          6 | Manteiga |  9.80 | Com sal     |            1 |
++------------+----------+-------+-------------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [loja]> select * from produto where id_categoria = 4;
++------------+-------------+-------+-------------------+--------------+
+| id_produto | nome        | preco | observacoes       | id_categoria |
++------------+-------------+-------+-------------------+--------------+
+|          3 | Detergente  |  2.50 | Limão             |            4 |
+|          4 | Sabão em Pó | 19.50 | Caixa 1kg         |            4 |
+|          7 | Amaciante   | 12.50 | Toque de baunilha |            4 |
++------------+-------------+-------+-------------------+--------------+
+3 rows in set (0.001 sec)
+
+MariaDB [loja]> select * from produto where id_categoria = 2;
++------------+-----------------+-------+----------------+--------------+
+| id_produto | nome            | preco | observacoes    | id_categoria |
++------------+-----------------+-------+----------------+--------------+
+|          8 | Banana Prata    |  5.99 | Preço por kg   |            2 |
+|          9 | Maçã Gala       |  8.50 | Preço por kg   |            2 |
+|         10 | Tomate Italiano |  7.20 | Preço por kg   |            2 |
+|         11 | Alface Crespa   |  3.00 | Unidade fresca |            2 |
++------------+-----------------+-------+----------------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [loja]> select * from produto where id_categoria = 3;
++------------+------------------+--------+----------------------------+--------------+
+| id_produto | nome             | preco  | observacoes                | id_categoria |
++------------+------------------+--------+----------------------------+--------------+
+|         12 | Fone de Ouvido   |  89.90 | Bluetooth intra-auricular  |            3 |
+|         13 | Mouse Sem Fio    |  55.00 | Óptico com pilhas inclusas |            3 |
+|         14 | Teclado Mecânico | 249.90 | RGB Switch Blue            |            3 |
+|         15 | Cabo HDMI 2m     |  25.00 | Suporte a 4K               |            3 |
++------------+------------------+--------+----------------------------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [loja]> select * from produto where id_categoria = 5;
++------------+--------------------+-------+-----------------------------+--------------+
+| id_produto | nome               | preco | observacoes                 | id_categoria |
++------------+--------------------+-------+-----------------------------+--------------+
+|         16 | Lasanha Bolonhesa  | 14.90 | Congelada 600g              |            5 |
+|         17 | Pizza de Calabresa | 18.00 | Congelada pronta para assar |            5 |
+|         18 | Pão de Queijo      | 12.50 | Pacote congelado 1kg        |            5 |
+|         19 | Sorvete de Creme   | 26.90 | Pote de 1.5L                |            5 |
++------------+--------------------+-------+-----------------------------+--------------+
+4 rows in set (0.000 sec)
+
+MariaDB [loja]> select * from produtos;
+ERROR 1146 (42S02): Table 'loja.produtos' doesn't exist
+MariaDB [loja]> select * from produto;
++------------+--------------------+--------+-----------------------------+--------------+
+| id_produto | nome               | preco  | observacoes                 | id_categoria |
++------------+--------------------+--------+-----------------------------+--------------+
+|          1 | Queijo             |  12.50 | Gorgonzola                  |            1 |
+|          2 | Iogurte            |   5.50 | Morango                     |            1 |
+|          3 | Detergente         |   2.50 | Limão                       |            4 |
+|          4 | Sabão em Pó        |  19.50 | Caixa 1kg                   |            4 |
+|          5 | Leite              |   4.80 | Caixa 1L                    |            1 |
+|          6 | Manteiga           |   9.80 | Com sal                     |            1 |
+|          7 | Amaciante          |  12.50 | Toque de baunilha           |            4 |
+|          8 | Banana Prata       |   5.99 | Preço por kg                |            2 |
+|          9 | Maçã Gala          |   8.50 | Preço por kg                |            2 |
+|         10 | Tomate Italiano    |   7.20 | Preço por kg                |            2 |
+|         11 | Alface Crespa      |   3.00 | Unidade fresca              |            2 |
+|         12 | Fone de Ouvido     |  89.90 | Bluetooth intra-auricular   |            3 |
+|         13 | Mouse Sem Fio      |  55.00 | Óptico com pilhas inclusas  |            3 |
+|         14 | Teclado Mecânico   | 249.90 | RGB Switch Blue             |            3 |
+|         15 | Cabo HDMI 2m       |  25.00 | Suporte a 4K                |            3 |
+|         16 | Lasanha Bolonhesa  |  14.90 | Congelada 600g              |            5 |
+|         17 | Pizza de Calabresa |  18.00 | Congelada pronta para assar |            5 |
+|         18 | Pão de Queijo      |  12.50 | Pacote congelado 1kg        |            5 |
+|         19 | Sorvete de Creme   |  26.90 | Pote de 1.5L                |            5 |
++------------+--------------------+--------+-----------------------------+--------------+
+19 rows in set (0.001 sec)
+
+MariaDB [loja]> select * from produto order by preco asc;
++------------+--------------------+--------+-----------------------------+--------------+
+| id_produto | nome               | preco  | observacoes                 | id_categoria |
++------------+--------------------+--------+-----------------------------+--------------+
+|          3 | Detergente         |   2.50 | Limão                       |            4 |
+|         11 | Alface Crespa      |   3.00 | Unidade fresca              |            2 |
+|          5 | Leite              |   4.80 | Caixa 1L                    |            1 |
+|          2 | Iogurte            |   5.50 | Morango                     |            1 |
+|          8 | Banana Prata       |   5.99 | Preço por kg                |            2 |
+|         10 | Tomate Italiano    |   7.20 | Preço por kg                |            2 |
+|          9 | Maçã Gala          |   8.50 | Preço por kg                |            2 |
+|          6 | Manteiga           |   9.80 | Com sal                     |            1 |
+|          1 | Queijo             |  12.50 | Gorgonzola                  |            1 |
+|          7 | Amaciante          |  12.50 | Toque de baunilha           |            4 |
+|         18 | Pão de Queijo      |  12.50 | Pacote congelado 1kg        |            5 |
+|         16 | Lasanha Bolonhesa  |  14.90 | Congelada 600g              |            5 |
+|         17 | Pizza de Calabresa |  18.00 | Congelada pronta para assar |            5 |
+|          4 | Sabão em Pó        |  19.50 | Caixa 1kg                   |            4 |
+|         15 | Cabo HDMI 2m       |  25.00 | Suporte a 4K                |            3 |
+|         19 | Sorvete de Creme   |  26.90 | Pote de 1.5L                |            5 |
+|         13 | Mouse Sem Fio      |  55.00 | Óptico com pilhas inclusas  |            3 |
+|         12 | Fone de Ouvido     |  89.90 | Bluetooth intra-auricular   |            3 |
+|         14 | Teclado Mecânico   | 249.90 | RGB Switch Blue             |            3 |
++------------+--------------------+--------+-----------------------------+--------------+
+19 rows in set (0.001 sec)
+
+MariaDB [loja]> select * from produto order by preco desc;
++------------+--------------------+--------+-----------------------------+--------------+
+| id_produto | nome               | preco  | observacoes                 | id_categoria |
++------------+--------------------+--------+-----------------------------+--------------+
+|         14 | Teclado Mecânico   | 249.90 | RGB Switch Blue             |            3 |
+|         12 | Fone de Ouvido     |  89.90 | Bluetooth intra-auricular   |            3 |
+|         13 | Mouse Sem Fio      |  55.00 | Óptico com pilhas inclusas  |            3 |
+|         19 | Sorvete de Creme   |  26.90 | Pote de 1.5L                |            5 |
+|         15 | Cabo HDMI 2m       |  25.00 | Suporte a 4K                |            3 |
+|          4 | Sabão em Pó        |  19.50 | Caixa 1kg                   |            4 |
+|         17 | Pizza de Calabresa |  18.00 | Congelada pronta para assar |            5 |
+|         16 | Lasanha Bolonhesa  |  14.90 | Congelada 600g              |            5 |
+|          1 | Queijo             |  12.50 | Gorgonzola                  |            1 |
+|          7 | Amaciante          |  12.50 | Toque de baunilha           |            4 |
+|         18 | Pão de Queijo      |  12.50 | Pacote congelado 1kg        |            5 |
+|          6 | Manteiga           |   9.80 | Com sal                     |            1 |
+|          9 | Maçã Gala          |   8.50 | Preço por kg                |            2 |
+|         10 | Tomate Italiano    |   7.20 | Preço por kg                |            2 |
+|          8 | Banana Prata       |   5.99 | Preço por kg                |            2 |
+|          2 | Iogurte            |   5.50 | Morango                     |            1 |
+|          5 | Leite              |   4.80 | Caixa 1L                    |            1 |
+|         11 | Alface Crespa      |   3.00 | Unidade fresca              |            2 |
+|          3 | Detergente         |   2.50 | Limão                       |            4 |
++------------+--------------------+--------+-----------------------------+--------------+
+19 rows in set (0.001 sec)
+
+MariaDB [loja]> INSERT INTO produto (nome, preco, observacoes, id_categoria) VALUES
+    -> ('Cenoura Especial', 4.80, 'Preço por kg', 2),
+    -> ('Brócolis Americano', 6.50, 'Unidade higienizada', 2),
+    -> ('Uva Sem Semente', 12.90, 'Bandeja 500g', 2),
+    -> ('Abacaxi Pérola', 7.00, 'Unidade doce', 2),
+    -> ('Carregador Portátil', 120.00, 'Powerbank 10000mAh', 3),
+    -> ('Hub USB-C 4 Portas', 79.90, 'Compatível com Notebook e Mac', 3),
+    -> ('Suporte para Monitor', 115.00, 'Articulado com pistão a gás', 3),
+    -> ('Pendrive 64GB', 35.00, 'USB 3.0 ultra rápido', 3),
+    -> ('Nuggets de Frango', 11.90, 'Pacote crocante 300g', 5),
+    -> ('Hambúrguer Bovino', 16.50, 'Caixa com 12 unidades', 5),
+    -> ('Batata Palito', 19.90, 'Pacote para Airfryer 1kg', 5),
+    -> ('Torta de Frango', 22.00, 'Congelada tamanho família', 5);
+Query OK, 12 rows affected (0.007 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> select * from produto;
++------------+----------------------+--------+-------------------------------+--------------+
+| id_produto | nome                 | preco  | observacoes                   | id_categoria |
++------------+----------------------+--------+-------------------------------+--------------+
+|          1 | Queijo               |  12.50 | Gorgonzola                    |            1 |
+|          2 | Iogurte              |   5.50 | Morango                       |            1 |
+|          3 | Detergente           |   2.50 | Limão                         |            4 |
+|          4 | Sabão em Pó          |  19.50 | Caixa 1kg                     |            4 |
+|          5 | Leite                |   4.80 | Caixa 1L                      |            1 |
+|          6 | Manteiga             |   9.80 | Com sal                       |            1 |
+|          7 | Amaciante            |  12.50 | Toque de baunilha             |            4 |
+|          8 | Banana Prata         |   5.99 | Preço por kg                  |            2 |
+|          9 | Maçã Gala            |   8.50 | Preço por kg                  |            2 |
+|         10 | Tomate Italiano      |   7.20 | Preço por kg                  |            2 |
+|         11 | Alface Crespa        |   3.00 | Unidade fresca                |            2 |
+|         12 | Fone de Ouvido       |  89.90 | Bluetooth intra-auricular     |            3 |
+|         13 | Mouse Sem Fio        |  55.00 | Óptico com pilhas inclusas    |            3 |
+|         14 | Teclado Mecânico     | 249.90 | RGB Switch Blue               |            3 |
+|         15 | Cabo HDMI 2m         |  25.00 | Suporte a 4K                  |            3 |
+|         16 | Lasanha Bolonhesa    |  14.90 | Congelada 600g                |            5 |
+|         17 | Pizza de Calabresa   |  18.00 | Congelada pronta para assar   |            5 |
+|         18 | Pão de Queijo        |  12.50 | Pacote congelado 1kg          |            5 |
+|         19 | Sorvete de Creme     |  26.90 | Pote de 1.5L                  |            5 |
+|         20 | Cenoura Especial     |   4.80 | Preço por kg                  |            2 |
+|         21 | Brócolis Americano   |   6.50 | Unidade higienizada           |            2 |
+|         22 | Uva Sem Semente      |  12.90 | Bandeja 500g                  |            2 |
+|         23 | Abacaxi Pérola       |   7.00 | Unidade doce                  |            2 |
+|         24 | Carregador Portátil  | 120.00 | Powerbank 10000mAh            |            3 |
+|         25 | Hub USB-C 4 Portas   |  79.90 | Compatível com Notebook e Mac |            3 |
+|         26 | Suporte para Monitor | 115.00 | Articulado com pistão a gás   |            3 |
+|         27 | Pendrive 64GB        |  35.00 | USB 3.0 ultra rápido          |            3 |
+|         28 | Nuggets de Frango    |  11.90 | Pacote crocante 300g          |            5 |
+|         29 | Hambúrguer Bovino    |  16.50 | Caixa com 12 unidades         |            5 |
+|         30 | Batata Palito        |  19.90 | Pacote para Airfryer 1kg      |            5 |
+|         31 | Torta de Frango      |  22.00 | Congelada tamanho família     |            5 |
++------------+----------------------+--------+-------------------------------+--------------+
+31 rows in set (0.001 sec)
+
+MariaDB [loja]>
