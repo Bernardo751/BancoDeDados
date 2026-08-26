@@ -25,10 +25,15 @@ conceitual https://app.brmodeloweb.com/#!/publicview/69d7c18de56bc192cf505b87
 
 lógico https://app.brmodeloweb.com/#!/publicview/69df6860e33b4dc332f92e3b
 
-## Skin Canvas
-conceitual https://app.brmodeloweb.com/#!/publicview/69fcab489ae9da54107999bd
+## Lava Rapido
+conceitual https://app.brmodeloweb.com/publicview/6a8ec9f70f6d17517ba20c98
 
-lógico  https://app.brmodeloweb.com/#!/publicview/69fcab619ae9da54107999c4
+lógico https://app.brmodeloweb.com/publicview/6a8eca150f6d17517ba20ca7
+
+## Bar
+conceitual https://app.brmodeloweb.com/publicview/6a8eca760f6d17517ba20cfb
+
+lógico https://app.brmodeloweb.com/publicview/6a8eca880f6d17517ba20d13
 
 ## Fisíco
 
